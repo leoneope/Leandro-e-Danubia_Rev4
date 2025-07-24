@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Presença - Leo & Dan</title>
+    <style>
+        :root {
+            --terracota-primary: #C65D32;
+            --terracota-secondary: #E07B39;
+            --terracota-light: #F4A261;
+            --terracota-dark: #A0522D;
+            --cream: #F5F5DC;
+            --warm-white: #FFF8F0;
+            --text-dark: #3E2723;
+            --text-light: #6D4C41;
+            --error-color: #d32f2f;
+            --success-color: #2e7d32;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, var(--warm-white) 0%, var(--cream) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 248, 240, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(198, 93, 50, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--terracota-primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 10px 20px;
+            background: var(--terracota-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-back:hover {
+            background: var(--terracota-dark);
+            transform: translateY(-2px);
+        }
+
+        .form-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            border: 1px solid rgba(198, 93, 50, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--cream);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--terracota-primary);
+        }
+
+        .form-group.error input,
+        .form-group.error textarea,
+        .form-group.error select {
+            border-color: var(--error-color);
+            background-color: #ffebee;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--terracota-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background: var(--terracota-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--terracota-primary);
+            border: 2px solid var(--terracota-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--terracota-primary);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .success-message, .error-modal {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(198, 93, 50, 0.1);
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            color: var(--error-color);
+            margin-bottom: 1rem;
+        }
+
+        .success-message h2, .error-modal h2 {
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+        }
+
+        .error-modal h2 {
+            color: var(--error-color);
+        }
+
+        .success-message p, .error-modal p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .wedding-info {
+            background: var(--cream);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .wedding-info h3 {
+            color: var(--terracota-primary);
+            margin-bottom: 1rem;
+        }
+
+        .wedding-info p {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .required {
+            color: var(--terracota-primary);
+        }
+
+        @media (max-width: 768px) {
+            .radio-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-back">← Voltar ao Site</a>
+        
+        <div class="header">
+            <h1>Confirmação de Presença</h1>
+            <p>Leo & Dan - 27 de Setembro de 2025 às 17:30</p>
+        </div>
+
+        <div class="wedding-info">
+            <h3>Informações do Casamento</h3>
+            <p><strong>Data:</strong> 27 de Setembro de 2025, às 17:30</p>
+            <p><strong>Cerimônia:</strong> Capela Nossa Senhora dos Aflitos, Av. Conselheiro Rosa e Silva, 752 - Graças, Recife - PE</p>
+            <p><strong>Recepção:</strong> <a href="https://www.google.com/maps/place/Villa+Gold+Buffet+Recep%C3%A7%C3%B5es+e+Eventos/@-8.0574568,-34.9120323,17z/data=!3m1!4b1!4m6!3m5!1s0x7ab1921597ae34b:0x855fa4dbe13799bf!8m2!3d-8.0574568!4d-34.9120323!16s%2Fg%2F11b6ll2zvr?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">Villa Gold Buffet Recepções e Eventos</a></p>
+            <p><strong>Dress Code:</strong> Social</p>
+        </div>
+
+        <!-- Formulário RSVP -->
+        <div id="rsvp-form" class="form-container">
+            <h2 style="color: var(--terracota-primary); margin-bottom: 1.5rem; text-align: center;">
+                Por favor, confirme sua presença
+            </h2>
+            
+            <form id="rsvpForm">
+                <div class="form-group">
+                    <label for="guest-name">Nome Completo <span class="required">*</span></label>
+                    <input type="text" id="guest-name" name="name" required placeholder="Seu nome completo">
+                    <div class="error-message">Por favor, informe seu nome completo.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="guest-birthdate">Data de Nascimento <span class="required">*</span></label>
+                    <input type="date" id="guest-birthdate" name="birthdate" required>
+                    <div class="error-message">Por favor, informe sua data de nascimento.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmação de Presença <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="confirm-yes" name="attendance" value="confirmed" required>
+                            <label for="confirm-yes">✅ Confirmo minha presença</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="confirm-no" name="attendance" value="declined" required>
+                            <label for="confirm-no">❌ Não poderei comparecer</label>
+                        </div>
+                    </div>
+                    <div class="error-message">Por favor, selecione uma opção de confirmação.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="guest-message">Mensagem para os Noivos</label>
+                    <textarea id="guest-message" name="message" rows="4" placeholder="Deixe uma mensagem carinhosa para Leo e Dan..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn">Enviar Confirmação</button>
+                    <a href="index.html" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal de Erro - Convidado não encontrado -->
+        <div id="error-modal" class="error-modal hidden">
+            <div class="error-icon">❌</div>
+            <h2>Convidado Não Encontrado</h2>
+            <p>Desculpe, mas seu nome não foi encontrado na lista de convidados. Por favor, verifique se digitou corretamente ou entre em contato com Leo e Dan.</p>
+            <div class="btn-group">
+                <button id="try-again-btn" class="btn">Tentar Novamente</button>
+                <a href="index.html" class="btn btn-secondary">Voltar ao Site</a>
+            </div>
+        </div>
+
+        <!-- Modal de Erro - Campos obrigatórios -->
+        <div id="validation-error-modal" class="error-modal hidden">
+            <div class="error-icon">⚠️</div>
+            <h2>Informações Incompletas</h2>
+            <p>Por favor, preencha todos os campos obrigatórios antes de continuar.</p>
+            <div class="btn-group">
+                <button id="fix-errors-btn" class="btn">Corrigir Informações</button>
+            </div>
+        </div>
+
+        <!-- Mensagem de Sucesso -->
+        <div id="success-message" class="success-message hidden">
+            <div class="success-icon">💕</div>
+            <h2>Obrigado!</h2>
+            <p>Sua confirmação foi recebida com sucesso. Leo e Dan ficaram muito felizes em saber que você estará presente neste dia especial!</p>
+            <a href="index.html" class="btn">Voltar ao Site</a>
+        </div>
+
+        <!-- Mensagem de Recusa -->
+        <div id="decline-message" class="success-message hidden">
+            <div class="success-icon">😢</div>
+            <h2>Que pena!</h2>
+            <p>Sentiremos sua falta neste dia especial, mas entendemos. Leo e Dan agradecem por ter respondido!</p>
+            <a href="index.html" class="btn">Voltar ao Site</a>
+        </div>
+    </div>
+
+    <script>
+        // Função para calcular idade baseada na data de nascimento
+        function calculateAge(birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        // Função para categorizar por faixa etária
+        function getAgeCategory(birthDate) {
+            const age = calculateAge(birthDate);
+            if (age <= 6) return '0-6';
+            if (age <= 12) return '7-12';
+            return '12+';
+        }
+
+        // Função para verificar se o convidado está na lista
+        function isGuestInvited(guestName) {
+            const guests = JSON.parse(localStorage.getItem('wedding-guests') || '[]');
+            const normalizedGuestName = guestName.toLowerCase().trim();
+            
+            return guests.some(guest => 
+                guest.name.toLowerCase().trim() === normalizedGuestName
+            );
+        }
+
+        // Função para validar campos obrigatórios
+        function validateForm() {
+            const form = document.getElementById('rsvpForm');
+            
+            // Limpar erros anteriores
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+
+            // Validar nome
+            const name = form.name.value.trim();
+            if (!name) {
+                document.querySelector('#guest-name').closest('.form-group').classList.add('error');
+                return false;
+            }
+
+            // Validar data de nascimento
+            const birthdate = form.birthdate.value;
+            if (!birthdate) {
+                document.querySelector('#guest-birthdate').closest('.form-group').classList.add('error');
+                return false;
+            }
+
+            // Validar confirmação de presença
+            const attendance = form.attendance.value;
+            if (!attendance) {
+                document.querySelector('input[name="attendance"]').closest('.form-group').classList.add('error');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Função para mostrar erro de validação
+        function showValidationError() {
+            document.getElementById('rsvp-form').classList.add('hidden');
+            document.getElementById('validation-error-modal').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Função para mostrar erro de convidado não encontrado
+        function showGuestNotFoundError() {
+            document.getElementById('rsvp-form').classList.add('hidden');
+            document.getElementById('error-modal').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Botão para corrigir erros de validação
+        document.getElementById('fix-errors-btn').addEventListener('click', function() {
+            document.getElementById('validation-error-modal').classList.add('hidden');
+            document.getElementById('rsvp-form').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Botão para tentar novamente (convidado não encontrado)
+        document.getElementById('try-again-btn').addEventListener('click', function() {
+            document.getElementById('error-modal').classList.add('hidden');
+            document.getElementById('rsvp-form').classList.remove('hidden');
+            // Limpar o campo nome para o usuário tentar novamente
+            document.getElementById('guest-name').value = '';
+            document.getElementById('guest-name').focus();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Processar envio do formulário
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validar formulário
+            if (!validateForm()) {
+                showValidationError();
+                return;
+            }
+
+            const formData = new FormData(this);
+            const guestName = formData.get('name').trim();
+
+            // Verificar se o convidado está na lista
+            if (!isGuestInvited(guestName)) {
+                showGuestNotFoundError();
+                return;
+            }
+
+            const rsvpData = {
+                name: guestName.toLowerCase(), // Converter para minúsculas
+                birthdate: formData.get('birthdate'),
+                ageCategory: getAgeCategory(formData.get('birthdate')),
+                status: formData.get('attendance'),
+                message: formData.get('message'),
+                timestamp: new Date().toISOString()
+            };
+
+            // Salvar no localStorage
+            let rsvps = JSON.parse(localStorage.getItem('wedding-rsvps') || '[]');
+            
+            // Verificar se já existe confirmação para este convidado
+            const existingIndex = rsvps.findIndex(rsvp => 
+                rsvp.name.toLowerCase() === guestName.toLowerCase()
+            );
+            
+            if (existingIndex !== -1) {
+                // Atualizar confirmação existente
+                rsvps[existingIndex] = rsvpData;
+            } else {
+                // Adicionar nova confirmação
+                rsvps.push(rsvpData);
+            }
+            
+            localStorage.setItem('wedding-rsvps', JSON.stringify(rsvps));
+
+            // Mostrar mensagem apropriada
+            document.getElementById('rsvp-form').classList.add('hidden');
+            
+            if (rsvpData.status === 'confirmed') {
+                document.getElementById('success-message').classList.remove('hidden');
+            } else {
+                document.getElementById('decline-message').classList.remove('hidden');
+            }
+
+            // Scroll para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Animação de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.form-container, .wedding-info');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    el.style.transition = 'all 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
+

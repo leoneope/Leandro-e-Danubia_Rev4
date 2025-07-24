@@ -389,14 +389,19 @@
             <h2>Nossa História</h2>
             <div class="story-content">
                 <p>
-                    Leo e Dan se conheceram em 2020 e desde então construíram uma linda história de amor. 
-                    Após anos de companheirismo, cumplicidade e muitos momentos especiais, 
-                    decidiram oficializar sua união e celebrar com família e amigos.
+                    Nos conhecemos desde o tempo de escola, de onde construímos uma sólida amizade. E há 20 anos iniciamos nosso relacionamento, onde tivemos 2 filhas lindas.
                 </p>
                 <br>
                 <p>
-                    Este site foi criado especialmente para compartilhar com vocês todos os detalhes 
-                    do nosso casamento e facilitar a organização deste dia tão especial.
+                    Sabemos que Deus fez tudo perfeito e para Ele há um tempo certo para todas as coisas!
+                </p>
+                <br>
+                <p>
+                    E após anos de companheirismo, cumplicidade e muitos momentos especiais, decidimos oficializar nossa união perante Deus no sacramento do matrimônio e celebrar com família e amigos mais íntimos.
+                </p>
+                <br>
+                <p>
+                    Este site foi criado especialmente para compartilhar com vocês todos os detalhes do nosso casamento e facilitar a organização deste dia tão especial.
                 </p>
             </div>
         </div>
@@ -425,20 +430,27 @@
             });
         });
 
-        // Redirecionamentos para as páginas funcionai        document.querySelector("a[href=\"#admin\"]").addEventListener("click", function(e) {
-            e.preventDefault();
-            window.location.href = "admin.html";
+        // Redirecionamentos para as páginas funcionais
+        document.querySelectorAll('a[href="#admin"]').forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+                window.location.href = "admin.html";
+            });
         });
 
-        document.querySelector('a[href="#rsvp"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = '/rsvp.html';
+        document.querySelectorAll('a[href="#rsvp"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = "rsvp.html";
+            });
         });
 
         // Link para lista de presentes externa
-        document.querySelector('a[href="#gifts"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('https://www.ferreiracosta.com/lista-de-casamento/presentes/leandroedanubia', '_blank');
+        document.querySelectorAll('a[href="#gifts"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.open('https://www.ferreiracosta.com/lista-de-casamento/presentes/leandroedanubia', '_blank');
+            });
         });
     </script>
 </body>
